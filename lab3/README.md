@@ -191,7 +191,7 @@ The figure below shows an example: on the left, a BST; in the middle, flattened 
 
 | Unbalanced subtree | Flattened to an array | After rebuilding |
 |-----------------------|-----------------------|------------------|
-| ![Unbalanced tree](img/unbalanced-bst.png) | `{1,5,6,7,8,13,14,20}` | ![Rebuilt tree](img/balanced-bst.png) |
+| ![Unbalanced tree](../img/unbalanced-bst.png) | `{1,5,6,7,8,13,14,20}` | ![Rebuilt tree](../img/balanced-bst.png) |
 
 **Scapegoat invariant.** When implementing a scapegoat tree, we first choose a constant α > 1 called the *balance factor*, which controls how unbalanced the tree is allowed to be. The scapegoat tree invariant is that each subtree's height must be within a factor of α of its optimal height. More precisely, every scapegoat tree satisfies the following balance invariant:
 
