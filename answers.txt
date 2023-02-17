@@ -1,0 +1,135 @@
+/******************************************************************************
+** DIT181  Datastrukturer och algoritmer, LP3 2021
+** Lab 3: Plagiarism detection
+*******************************************************************************/
+
+Group members:
+- Meis Salim
+- Amanda de Souza Turquis
+- Maja Linder
+
+/******************************************************************************
+** Task: Running the slow program
+**
+** 1. What is the asymptotic complexity of findSimilarity?
+**    Answer in terms of N, the total number of 5-grams in the input files.
+**    Assume that the number of duplicate occurrences of 5-grams is
+**    a small constant - that is, there is not much plagiarised text.
+******************************************************************************/
+
+O(N^2). We let D be the number of documents and K be the number of 5-grams per document.
+When we iterate through the documents in the first two for loops it takes D times for each.
+Iterating through the 5-grams in the documents takes K times for each.
+We can write this as D*K*D*K. Since D*K=N, we can say N*N=N^2.
+
+/******************************************************************************
+** 2. How long did the program take on the 'small' and 'medium' directories?
+**    Is the ratio between the times what you would expect, given the complexity?
+**    Explain very briefly why.
+*******************************************************************************/
+
+Small: 2,67 seconds
+Medium: 408,51 seconds
+
+The number of the medium 5-grams are 10 times larger than the small. Since it's
+quadratic complexity, we take 10^2=100. So, we would expect the medium directory
+to take 2,67*100=267 seconds. It took longer because it has more plagiarised text
+than the small.
+
+/******************************************************************************
+** 3. How long do you predict the program would take to run on
+**    the 'huge' directory? Show your calculations.
+*******************************************************************************/
+
+The number of 5-grams in the huge directory is 200 times larger than the small.
+200^2=40 000
+2,67*40 000=106 800 seconds.
+It would take longer than the prediction if the set contains more plagiarised text.
+
+/******************************************************************************
+** Task: Using binary search trees
+**
+** 4. Which of the BSTs in the program usually become unbalanced?
+**    Say very briefly how you deduced this.
+******************************************************************************/
+
+Both trees use binary search but the scapegoat tree has an invariant that check
+if the tree is balanced and if it is not, it will rebuild until it is balanced.
+So the BST is the one that usually becomes more unbalanced compared to the
+scapegoat tree, since it's not self balancing.
+
+/******************************************************************************
+** 5 (optional). Is there a simple way to stop these trees becoming unbalanced?
+******************************************************************************/
+
+Both trees use binary search but the Scapegoat tree has an invariant that check
+if the tree is balanced. If it is not, it will rebuild until it is balanced.
+So the BST is the one that usually become more unbalanced compared to the scapegoat
+tree
+
+/******************************************************************************
+** Task: Using scapegoat trees
+**
+** 6. Now what is the total asymptotic complexities of running buildIndex
+**    and findSimilarity? Include brief justification. Again, assume a total
+**    of N 5-grams, and a constant number of duplicate occurrences of 5-grams.
+******************************************************************************/
+
+We let D be the number of documents and K be the number of 5-grams per document.
+In build index, first we iterate through the documents which takes D times.
+Then we iterate through the ngrams in the documents which takes K times.
+This is D*K which is N. In the if-statement it takes log N time to put into
+the scapegoat tree. The total complexity is then O(N*logN).
+
+In find similarity we iterate through the first for-loop N times because we
+will have all the ngrams. However, since we are using scapegoat tree and we are getting
+the index in the second and third for-loop we will have a complexity of log N.
+Since we assume that there is not much plagiarised text, the similarity will be O(1).
+The total complexity is then O(N*logN).
+
+The total complexity of both methods is N*logN + N*logN = O(N*logN).
+
+/******************************************************************************
+** 7 (optional). What if the total similarity score is an arbitrary number S,
+**               rather than a small constant?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+- Meis Salim: 24h
+- Amanda de Souza Turquis: 24h
+- Maja Linder: 24h
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
