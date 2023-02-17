@@ -1,0 +1,124 @@
+/******************************************************************************
+** DIT181 Datastrukturer och algoritmer, LP3 2021
+** Lab 1: Sorting, Complexity
+*******************************************************************************/
+
+Group members:
+- Meis Salim
+- Amanda de Souza Turquis
+- Maja Linder
+
+/******************************************************************************
+** Task: Figuring out the complexity
+**
+** 1. What is the complexity of running each of the following algorithms
+**    on each of the following kinds of inputs?
+**    You only have to decide between quadratic or faster than quadratic.
+******************************************************************************/
+
+Insertion.java on:
+
+- random inputs:      Quadratic
+- 95% sorted inputs:  Faster than quadratic
+- sorted inputs:      Faster than quadratic
+
+Quick.java on:
+
+- random inputs:      Faster than quadratic
+- 95% sorted inputs:  Faster than quadratic
+- sorted inputs:      Quadratic
+
+Merge.java on:
+
+- random inputs:      Faster than quadratic
+- 95% sorted inputs:  Faster than quadratic
+- sorted inputs:      Faster than quadratic
+
+/******************************************************************************
+** 2. How did you check if an algorithm had quadratic complexity or not?
+******************************************************************************/
+
+If we take the runtime divided by the array size we can analyze if it takes longer for larger arrays. T(n)/f(n).
+For example looking at quick sort: 33/10000 = 0.0033, 3600/100000 = 0.036. The interval
+within the runtime and the size of the array, the result is 10 times bigger.
+
+/******************************************************************************
+** Task: Improving quicksort
+**
+** 3. Do the following changes affect the complexity of quicksort
+**    on any kind of input data? If so, what is it that changes?
+******************************************************************************/
+
+Shuffling the array first:
+Yes, all the input data runtime is changed. Since the first element is shuffled it will have a different
+pivot for each size. The different input data will have similar runtime because they are being shuffled
+each time and therefore have similar process. The "sorted" had a better runtime and complexity whereas the
+"random" had a slightly worse result and the "95% sorted" had a slightly better runtime after being shuffled.
+
+
+Median-of-three pivot selection:
+Yes, sorted had a better complexity. In the meantime the complexity for the other two remained the same, but
+random had a slightly worse runtime and 95% sorted slightly better.
+
+
+Insertion sort for small arrays:
+No, we could only see a small improvement in runtime with a cut off value around 50 for random arrays.
+
+/******************************************************************************
+** 4. What is a good cutoff to use for insertion sort?
+**    Explain briefly how you came to this answer.
+**    Remember that you should try to find the answer in a systematic way.
+******************************************************************************/
+
+We looked at and compared one smaller and one larger array size to see which one of them performed
+better in runtime. Then we tested some numbers in between to see if we could see a difference. What we could
+see was a small improvement in runtime for random arrays with a cut off value around 50.
+Since there was only a slight change we decided to try a larger number and saw that a cut off value over
+1000 made the runtime worse.
+
+/******************************************************************************
+** 5. Which combination of improvements gives the best performance?
+******************************************************************************/
+
+The best combination is using median of three and insertion sort with a cut off value of 50.
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+Meis Salim: 11 h 30 min
+Amanda de Souza Turquis: 12 h 30 min
+Maja Linder:  12 h 30 min
+
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+No, only during the process of testing the median of three we encountered a bug.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+No, we did not collaborate with other students, but we did online research about the topics.
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+We had problems how to understand the results since we did not find any big differences
+between the original code and the improvements made.
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+Doing a practical exercise was much more effective than just reading theory.

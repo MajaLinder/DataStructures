@@ -1,0 +1,198 @@
+/******************************************************************************
+** DIT181  Datastrukturer och algoritmer, LP3 2021
+** Lab 4: Path finder
+*******************************************************************************/
+
+Group members:
+- Meis Salim
+- Amanda de Souza Turquis
+- Maja Linder
+
+/******************************************************************************
+** 1. List the minimal cost, shortest path, and number of loop iterations
+**    for each of the following invocations.
+******************************************************************************/
+
+> java RunPathFinder ucs AdjacencyGraph graphs/AdjacencyGraph/citygraph-SE.txt Lund Kiruna
+
+loop iterations: 5427
+minimal cost:    1826.0
+shortest path:   Lund -> Löddeköpinge -> Hjärnarp -> Åled -> Oskarström -> ... -> Storuman -> Sorsele -> Jokkmokk -> Gällivare -> Kiruna
+
+> java RunPathFinder ucs NPuzzle 3 "/HFG/BED/C_A/" "/ABC/DEF/GH_/"
+
+loop iterations: 483573
+minimal cost:    31.0
+shortest path:   /HFG/BED/C_A/ -> /HFG/BED/CA_/ -> /HFG/BE_/CAD/ -> /HFG/B_E/CAD/ -> /H_G/BFE/CAD/ -> ... -> /AC_/DBE/GHF/ -> /A_C/DBE/GHF/ -> /ABC/D_E/GHF/ -> /ABC/DE_/GHF/ -> /ABC/DEF/GH_/
+
+> java RunPathFinder astar NPuzzle 3 "/HFG/BED/C_A/" "/ABC/DEF/GH_/"
+
+loop iterations: 32375
+minimal cost:    31.0
+
+> java RunPathFinder ucs NPuzzle 3 "/HGF/BED/C_A/" "/ABC/DEF/GH_/"
+
+loop iterations: 483841
+minimal cost:
+shortest path:   No path found from /HGF/BED/C_A/ to /ABC/DEF/GH_/
+
+> java RunPathFinder ucs GridGraph graphs/GridGraph/AR0011SR.map "23:161" "130:211"
+
+loop iterations: 159327
+minimal cost:    366.40411229460744
+shortest path:   23:161 -> 23:160 -> 23:159 -> 23:158 -> 23:157 -> ... -> 132:207 -> 131:208 -> 131:209 -> 130:210 -> 130:211
+
+> java RunPathFinder astar GridGraph graphs/GridGraph/AR0011SR.map "23:161" "130:211"
+
+loop iterations: 95160
+minimal cost:    366.4041122946075
+
+> java RunPathFinder ucs WordLadder graphs/WordLadder/words-saldo.txt syster broder
+
+loop iterations: 71182
+minimal cost:    11.0
+shortest path:   syster -> sylter -> sylten -> synten -> synden -> ... -> bauden -> bruden -> bröden -> bröder -> broder
+
+> java RunPathFinder astar WordLadder graphs/WordLadder/words-saldo.txt syster broder
+
+loop iterations: 7055
+minimal cost:    11.0
+
+/******************************************************************************
+** 2. For each of the three classes GridGraph, WordLadder, and NPuzzle,
+**    what is the approximate improvement in the number of loop iterations
+**    by running A* instead of UCS?
+**    Try a number of different examples per class.
+******************************************************************************/
+33%
+GridGraph: 64 167 loops - 40.27%
+GridGraph: 657/971 - 32.34%
+GridGraph: 733/999 - 26.63%
+
+95%
+WordLadder: 64 127 loops - 90.09%
+WordLadder: 152-3=149 149/152=0.9802x100= 98.02%
+WordLadder: 45623-494=45129 45129/45623= 98.92%
+
+96%
+NPuzzle: 451 198 loops - 93.31%
+NPuzzle: 185088-2615=182473 182473/185088= 98.58%
+NPuzzle: 268844-7461=261,383 261,383/268,844= 97.22%
+
+/******************************************************************************
+** 3. For which of the three classes GridGraph, WordLadder, and NPuzzle,
+**    did the heuristics .guessCost() have the most impact?
+**    Why do you think this is the case?
+******************************************************************************/
+
+NPuzzle had the most impact because it is using the Manhattan distance, which
+works by calculating the total number of squares moved horizontally
+and vertically so it reach the target square from the current square. Ignoring the
+diagonal movements and any obstacles that might be in the way.
+
+/******************************************************************************
+** 4. Give pseudo-code of the following methods that you implemented.
+**    Try to abstract over details which are relevant only for Java.
+**    Make it easy to follow for a human.
+******************************************************************************/
+
+WordLadder.outgoingEdges(String w):
+
+    List<DirectedEdge<String>> outgoingEdges = new LinkedList<>()
+
+           wordLength = w.length()
+           for i goes from 0 to wordLength
+               for char c in charset
+                   do char[] letters = w.toCharArray()
+                   if not letters[i] in c
+                       letters[i] = c
+                       String word = new String(letters)
+                       if dictionary.contains(word):
+                           DirectedEdge<String> edge = new DirectedEdge<>(w, word, 1)
+                           outgoingEdges.add(edge)
+           return outgoingEdges
+
+
+WordLadder.guessCost(String w, String u):
+
+  int diff = 0
+
+          for i goes from 0 to the w.length
+              if not w(i) in u(i)
+              diff = diff + 1
+          return diff
+
+
+/******************************************************************************
+** 5. Give pseudo-code of the method .searchAstar() in PathFinder.
+******************************************************************************/
+
+PathFinder.searchAstar(Node start, Node goal):
+        Queue<PQEntry> pqueue = new PriorityQueue<>()
+        Set<Node> visitedNodes = new HashSet<>()
+
+        pqueue.add(new PQEntry())
+
+        while not queue.isEmpty():
+            PQEntry entry = pqueue.remove()
+            if not visitedNodes.contains(entry.node):
+                visitedNodes.add(entry.node)
+                if entry node = goal:
+                    List<Node> path = extractPath(entry)
+                    return new Result()
+
+            for edge in graph.outgoingEdges(entry.node):
+                double costToNext = entry.costToHere + edge.weight()
+                pqueue.add(new PQEntry())
+
+        return new Result()
+
+/******************************************************************************
+** 6. What are the main differences between your implementations 
+**    of .searchAstar() and .searchUCS()?
+******************************************************************************/
+
+The main differences are that we're using another instance variable in PQEntry
+where we keep track of the cost from start to goal. The method guessCost is then
+calculating the cost between the start and goal node as accurate as possible by
+looking at the number of different letters between the two words.
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+- Meis Salim: 17h
+- Amanda de Souza Turquis: 17h
+- Maja Linder: 19h
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+No.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+We discuss with Karl Stahre about the WordLadder.
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+One of our team member encounter a problem, where she couldn't run the code on
+her computer.
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+[...]

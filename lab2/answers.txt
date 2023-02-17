@@ -1,0 +1,93 @@
+
+/******************************************************************************
+** DIT181  Datastrukturer och algoritmer, LP3 2021
+** Lab 2: Autocomplete
+*******************************************************************************/
+
+Group members:
+- Meis Salim
+- Amanda de Souza Turquis
+- Maja Linder
+
+/******************************************************************************
+** 1. Describe how your firstIndexOf() method in RangeBinarySearch.java
+**    finds the first index of a key that equals the search key.
+******************************************************************************/
+
+We have two pointers that point to at the start (left) and the end (right). As long as the
+left is smaller than the right, we find and point to the middle. We compare if the key is
+the same as the middle pointer. If it's the same then we change the return value from -1 to
+the middle index. We want to continue searching to see if the index is the first element in
+the key so we move the right pointer to the left of the middle pointer, in doing so we restrict
+the search to the left half of the array.
+If the result of the comparison is 1 then it means the key is larger than the middle index,
+so the key is in the right half of the array and we move the left pointer to the right of the
+middle. We do the opposite if the result is -1 since this means the key is in the left half
+of the array.
+If the comparator doesn't find the key at all, the index value will not change from -1.
+
+/******************************************************************************
+** 2. State and justify the asymptotic complexity of the operations
+**    in the Autocomplete class in the dictionary size n.
+**    For all Matches and numberOfMatches, the asymptotic complexity
+**    should also depend on the matching terms m.
+**
+**    You may take the number of comparisons as a proxy for the runtime.
+******************************************************************************/
+
+sortDictionary: O(N log(N))
+The Arrays.sort has a complexity of O(N log(N)) and we are calling a Comparator of O(1)
+inside sort, then we have O(N log(N)) * O(1), resulting in a complexity of O(N log(N)).
+
+allMatches: O(log N + M log M)
+The methods in range binary search has a complexity of O(log N) which we are calling
+twice in the all matches method. Then in the if-else statement when we want to return
+an array of terms, we have .sort again which has a complexity of O(N log(N)). Because
+we are calling comparators with constant complexity, we multiplied by O(1).
+O(((log N * (1)) + (M log M * (1))) which is O(log N + M log M).
+
+numberOfMatches: O(log N)
+We are calling the methods from range binary search which have a complexity of O(log(N)).
+
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+[Meis Salim]:  [22h30]
+[Maja Linder]:  [22h30]
+[Amanda de Souza Turquis]:  [26h30]
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+We can not use Swedish letters. Many of the test cases are not working.
+
+Knowledge about complexity.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+We asked a friend outside of university about the range binary search.
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+
+
